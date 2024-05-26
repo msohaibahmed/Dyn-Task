@@ -8,11 +8,10 @@ import pytest
 @pytest.mark.cancel
 def test_cancel_subscription(driver):
     login_page = LoginPage(driver=driver, login_url=Config.BASE_URL + "/anmelden")
-    # helper.accept_cookies(driver=driver)
     login_page.go_to_login_page()
-    time.sleep(10)
+    time.sleep(1)
     login_page.login("marvin.klaproth+freetrial+monthly@dynmedia.com", "DynSportTest102!")
-    time.sleep(5)
+    time.sleep(1)
     # Assertions to verify successful login can go here
     assert driver.current_url == "https://www.dyn.sport/", "Unable to login."
 
@@ -20,7 +19,7 @@ def test_cancel_subscription(driver):
     profile_page.load()
     time.sleep(1)
     profile_page.open_my_subscription_page()
-    time.sleep(10)
+    time.sleep(5)
     profile_subscription_page = ProfileSubscriptionPage(driver=driver)
     assert driver.current_url == profile_subscription_page.url, "Unable to load profile page"
 

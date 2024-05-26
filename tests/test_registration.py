@@ -10,8 +10,9 @@ from faker import Faker
 def test_user_registration_without_subscription(driver):
     initial_registration_page = InitialRegistrationPage(driver=driver)
     initial_registration_page.load()
+    helper.handle_cookies_modal(driver=driver)
     initial_registration_page.start_registration()
-    time.sleep(5)
+    time.sleep(1)
 
     registration_data_page = RegistrationDetailsPage(driver=driver)
     assert driver.current_url == registration_data_page.url, "Unable to load Registration data page."
@@ -32,7 +33,7 @@ def test_user_registration_without_subscription(driver):
     driver = helper.restart_browser(driver=driver)
     login_page = LoginPage(driver=driver, login_url=Config.BASE_URL + "/anmelden")
     login_page.go_to_login_page()
-    time.sleep(5)
+    time.sleep(1)
     login_page.login(user_email, user_password)
     time.sleep(5)
     assert driver.current_url == "https://www.dyn.sport/resubscribe", "Unable to register new user."

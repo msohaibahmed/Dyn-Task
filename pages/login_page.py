@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from utilities import helper
 
 class LoginPage:
     def __init__(self, driver, login_url):
@@ -16,24 +16,7 @@ class LoginPage:
 
     def go_to_login_page(self):
         self.driver.get(self.login_url)
-        self.handle_cookies_modal()
-
-    def handle_cookies_modal(self):
-        # await page.waitForSelector('button[data-testid="uc-accept-all-button"]', { timeout: 5000 });
-        try:
-            # WebDriverWait(self.driver, 50).until(
-            #     EC.visibility_of_element_located(self.cookie_modal_locator)
-            # )
-            accept_button = WebDriverWait(self.driver, 50).until(
-                EC.element_to_be_clickable(self.cookie_accept_locator)
-            )
-            accept_button.click()
-            # WebDriverWait(self.driver, 20).until(
-            #     EC.invisibility_of_element_located(self.cookie_modal_locator)
-            # )
-            print("Cookies have been accepted.")
-        except TimeoutException as te:
-            print(f"Cookie modal did not appear or took too long.{te}")
+        helper.handle_cookies_modal(self.driver)
 
     def enter_username(self, username):
         username_field = WebDriverWait(self.driver, 10).until(

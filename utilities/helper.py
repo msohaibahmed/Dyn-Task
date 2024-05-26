@@ -3,6 +3,7 @@ import string
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 
 def generate_password():
@@ -36,3 +37,12 @@ def restart_browser(driver):
     driver.quit()  # Close the current browser session
     driver = webdriver.Chrome()  # Start a new browser session
     return driver
+
+def handle_cookies_modal(driver):
+        try:
+            import time
+            time.sleep(10)
+            element = driver.execute_script('return document.querySelector("#usercentrics-root").shadowRoot.querySelector("#uc-center-container")')
+            element.find_element(By.CSS_SELECTOR, '[data-testid="uc-accept-all-button"]').click()
+        except TimeoutException as te:
+            print(f"Cookie modal did not appear or took too long.{te}")
