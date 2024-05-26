@@ -11,25 +11,26 @@ class LoginPage:
         self.username_locator = (By.ID, "email")
         self.password_locator = (By.ID, "password")
         self.submit_button_locator = (By.ID, "loginFormCta")
-        self.cookie_accept_locator = (By.CSS_SELECTOR, '[data-testid="uc-accept-all-button"]')
+        self.cookie_accept_locator = (By.CSS_SELECTOR, 'button[data-testid="uc-accept-all-button"]')
         self.cookie_modal_locator = (By.CSS_SELECTOR, '[data-testid="uc-tcf-first-layer"]')
 
     def go_to_login_page(self):
         self.driver.get(self.login_url)
-        # self.handle_cookies_modal()
+        self.handle_cookies_modal()
 
     def handle_cookies_modal(self):
+        # await page.waitForSelector('button[data-testid="uc-accept-all-button"]', { timeout: 5000 });
         try:
-            WebDriverWait(self.driver, 50).until(
-                EC.visibility_of_element_located(self.cookie_modal_locator)
-            )
-            accept_button = WebDriverWait(self.driver, 20).until(
+            # WebDriverWait(self.driver, 50).until(
+            #     EC.visibility_of_element_located(self.cookie_modal_locator)
+            # )
+            accept_button = WebDriverWait(self.driver, 50).until(
                 EC.element_to_be_clickable(self.cookie_accept_locator)
             )
             accept_button.click()
-            WebDriverWait(self.driver, 20).until(
-                EC.invisibility_of_element_located(self.cookie_modal_locator)
-            )
+            # WebDriverWait(self.driver, 20).until(
+            #     EC.invisibility_of_element_located(self.cookie_modal_locator)
+            # )
             print("Cookies have been accepted.")
         except TimeoutException as te:
             print(f"Cookie modal did not appear or took too long.{te}")
